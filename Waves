@@ -1,0 +1,25 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Text;
+
+namespace Lab1
+{
+    class Waves: Filters
+    {
+        protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
+        {
+            int k = 150;
+            int l = 10;
+
+            Color sourseColor = sourceImage.GetPixel(x, y);
+            int newX = (int)(x + 20 * Math.Sin(Math.PI * (x + k) / 30));
+            if (newX > 0 && newX < sourceImage.Width && y > 0 && y < sourceImage.Height)
+            {
+                sourseColor = sourceImage.GetPixel(newX, y);
+            }
+
+            return Color.FromArgb(sourseColor.R, sourseColor.G, sourseColor.B);
+        }
+    }
+}

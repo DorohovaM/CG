@@ -1,0 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Text;
+
+namespace Lab1
+{
+    class TopHat : Filters
+    {
+        Bitmap sourse0;
+        public TopHat(Bitmap sourseImage) 
+        {
+            sourse0 = sourseImage;
+        }
+
+        protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
+        {
+            Color SubtractColor = sourse0.GetPixel(x, y);
+            int k = 10;
+            if (x + k > sourceImage.Width || y + k > sourceImage.Height)
+            {
+                k = 0;
+            }
+            Color MinuendColor = sourceImage.GetPixel(x + k, y + k);
+            return Color.FromArgb(Clamp(MinuendColor.R - SubtractColor.R, 0, 255),
+            Clamp(MinuendColor.G - SubtractColor.G, 0, 255),
+            Clamp(MinuendColor.B - SubtractColor.B, 0, 255));
+        }
+    }
+}
+
+
+
+
+
+private void topHatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            закрытиеToolStripMenuItem_Click(sender, e);
+            Filters filter = new TopHat(image0);
+
+            backgroundWorker1.RunWorkerAsync(filter);
+        }
